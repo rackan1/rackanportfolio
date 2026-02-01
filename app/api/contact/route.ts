@@ -1,6 +1,7 @@
 import { Resend } from "resend"
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Force Node runtime (important on Vercel)
+export const runtime = "nodejs"
 
 export async function POST(req: Request) {
   try {
@@ -13,17 +14,14 @@ export async function POST(req: Request) {
       )
     }
 
+    const resend = new Resend(process.env.RESEND_API_KEY!)
+
     const result = await resend.emails.send({
       from: "Contact <contact@rackan.ca>",
       to: "rackan.abughazal10@gmail.com",
       replyTo: email,
       subject: subject || "New Contact Form Message",
-      text: `
-Name: ${name}
-Email: ${email}
-
-${message}
-      `,
+      text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
       html: `
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
@@ -38,8 +36,8 @@ ${message}
       )
     }
 
-    return Response.json({ success: true }, { status: 200 })
-  } catch (error) {
+    return Response.json({ success: true })
+  } catch {
     return Response.json(
       { success: false, error: "Internal server error" },
       { status: 500 }
