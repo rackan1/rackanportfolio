@@ -85,7 +85,7 @@ export function ContactSection() {
               <div>
                 <h3 className="font-medium mb-1">Resume</h3>
                 <Link
-                  href="/2026_resume.pdf"
+                  href="/2026_reume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground text-sm hover:text-primary transition-colors"
